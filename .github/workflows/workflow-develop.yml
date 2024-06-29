@@ -34,8 +34,8 @@ jobs:
       - name: Upload JAR as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: orders-service-example-jar
-          path: target/orders-service-example-0.0.1-SNAPSHOT.jar
+          name: payments-service-example-jar
+          path: target/payments-service-example-0.0.1-SNAPSHOT.jar
 
   docker-build:
     runs-on: ubuntu-latest
@@ -47,19 +47,21 @@ jobs:
       - name: Download JAR artifact
         uses: actions/download-artifact@v2
         with:
-          name: orders-service-example-jar
+          name: payments-service-example-jar
           path: ./
 
       - name: Build Docker image
         run: |
-          docker build --build-arg JAR_FILE=orders-service-example-0.0.1-SNAPSHOT.jar -t orders-service-example:latest .
+          docker build --build-arg JAR_FILE=payments-service-example-0.0.1-SNAPSHOT.jar -t payments-service-example:latest .
 
-      - name: Save Docker image as artifact
+      # Save Docker image as an artifact
+      - name: Save Docker image
         run: |
-          docker save orders-service-example:latest | gzip > orders-service-example-latest.tar.gz
+          docker save -o payments-service-example.tar payments-service-example:1
 
-      - name: Upload Docker image as artifact
+      # Upload Docker image as an artifact
+      - name: Upload Docker image artifact
         uses: actions/upload-artifact@v2
         with:
-          name: orders-service-example-docker-image
-          path: orders-service-example-latest.tar.gz
+          name: payments-service-docker-image
+          path: ./payments-service-example.tar

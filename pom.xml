@@ -39,17 +39,15 @@
 						<goals>
 							<goal>repackage</goal>
 						</goals>
-						<configuration>
-							<classifier>spring-boot</classifier>
-							<mainClass>
-								uy.edu.ort.devops.paymentsserviceexample.PaymentsServiceExampleApplication
-							</mainClass>
-						</configuration>
-					</execution>
+						</execution>
 				</executions>
+				<configuration>
+					<classifier>spring-boot</classifier>
+					<mainClass>
+						uy.edu.ort.devops.paymentsserviceexample.PaymentsServiceExampleApplication
+					</mainClass>
+				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
-
 </project>
