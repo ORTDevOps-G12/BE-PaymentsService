@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -14,7 +14,7 @@
 	<name>payments-service-example</name>
 	<description>Demo project for migrating Monolith to Microservices</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version> <!-- Actualizado a 17 para coincidir con el JDK en GitHub Actions -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -39,13 +39,10 @@
 						<goals>
 							<goal>repackage</goal>
 						</goals>
-						</execution>
+					</execution>
 				</executions>
 				<configuration>
-					<classifier>spring-boot</classifier>
-					<mainClass>
-						uy.edu.ort.devops.paymentsserviceexample.PaymentsServiceExampleApplication
-					</mainClass>
+					<mainClass>uy.edu.ort.devops.paymentsserviceexample.PaymentsServiceExampleApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
