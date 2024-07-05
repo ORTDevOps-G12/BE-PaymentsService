@@ -12,11 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: '11'
+          java-version: '17'
 
       - name: Grant execute permission for Maven Wrapper
         run: chmod +x ./mvnw
@@ -24,13 +24,9 @@ jobs:
       - name: Install dependencies
         run: ./mvnw dependency:resolve
 
-      - name: Grant execute permission for build script
-        run: chmod +x .github/scripts/build.sh
+      - name: Build with Maven
+        run: ./mvnw clean package
 
-      - name: Run build script
-        run: |
-          ./.github/scripts/build.sh
-      
       - name: Upload JAR as artifact
         uses: actions/upload-artifact@v2
         with:
@@ -61,6 +57,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push de imagen Docker
-        run: |
-          docker images
-          docker push ${{ secrets.DOCKER_USERNAME }}/payments-service-example:dev1
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/payments-service-example:dev1
