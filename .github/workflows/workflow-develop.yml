@@ -52,11 +52,9 @@ jobs:
           name: payments-service-example-jar
           path: ./
 
-      - name: Verify JAR detailed
+      - name: Verify JAR before building Docker image
         run: |
-          echo "Detailed verification of JAR in docker-build job..."
           file payments-service-example-0.0.1-SNAPSHOT.jar
-          jar tf payments-service-example-0.0.1-SNAPSHOT.jar
           unzip -p payments-service-example-0.0.1-SNAPSHOT.jar META-INF/MANIFEST.MF
 
       - name: Build Docker image
