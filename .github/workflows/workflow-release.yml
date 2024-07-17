@@ -1,9 +1,9 @@
-name: CI/CD Pipeline - Develop
+name: CI/CD Pipeline - release
 
 on:
   push:
     branches:
-      - develop
+      - release
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -92,7 +92,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --build-arg JAR_FILE=payments-service-example-0.0.1-SNAPSHOT.jar -t ${{ secrets.DOCKER_USERNAME }}/payments-service-develop:dev1 .
+          docker build --build-arg JAR_FILE=payments-service-example-0.0.1-SNAPSHOT.jar -t ${{ secrets.DOCKER_USERNAME }}/payments-service-release:0.0.1-SNAPSHOT .
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -101,7 +101,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/payments-service-develop:dev1
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/payments-service-release:0.0.1-SNAPSHOT
 
   job-newman:
     runs-on: ubuntu-latest
@@ -143,10 +143,10 @@ jobs:
 
       - name: Update ECS service
         run: |
-          CLUSTER_NAME="${{ secrets.WORKSPACE-DEV }}-${{ secrets.PROJECT_NAME }}-cluster"
-          SERVICE_NAME="${{ secrets.WORKSPACE-DEV }}-${{ secrets.PROJECT_NAME }}-payments-service"
-          CONTAINER_NAME="${{ secrets.WORKSPACE-DEV }}-${{ secrets.PROJECT_NAME }}-payments-container"
-          IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/products-service-develop:0.0.1-SNAPSHOT"
+          CLUSTER_NAME="${{ secrets.WORKSPACE-REL }}-${{ secrets.PROJECT_NAME }}-cluster"
+          SERVICE_NAME="${{ secrets.WORKSPACE-REL }}-${{ secrets.PROJECT_NAME }}-payments-service"
+          CONTAINER_NAME="${{ secrets.WORKSPACE-REL }}-${{ secrets.PROJECT_NAME }}-payments-container"
+          IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/products-service-release:0.0.1-SNAPSHOT"
           
           TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition manualtaskTest)
           NEW_TASK_DEFINITION=$(echo $TASK_DEFINITION | jq --arg IMAGE "$IMAGE_NAME" --arg CONTAINER_NAME "$CONTAINER_NAME" '.taskDefinition | .containerDefinitions |= map(if .name == $CONTAINER_NAME then .image = $IMAGE else . end)')
